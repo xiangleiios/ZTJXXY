@@ -91,18 +91,12 @@
     
     XLCache *cache = [XLCache singleton];
 
-//    if ([User UserOb].UserLogin && cache.teamCode_title.count > 0) {
-        CYLTabBarControllerConfig * TabBarControllerConfig = [[CYLTabBarControllerConfig alloc] init];
-        self.tab = TabBarControllerConfig;
-        TabBarControllerConfig.tabBarController.delegate=self;
-        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        self.window.rootViewController  = TabBarControllerConfig.tabBarController ;
-//    }else{
-//        SelectRoleVC *Loginvc = [[SelectRoleVC alloc] init];
-//        EasyNavigationController * LoginvcNavigationController = [[EasyNavigationController alloc]initWithRootViewController:Loginvc];
-//        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//        self.window.rootViewController  = LoginvcNavigationController ;
-//    }
+    CYLTabBarControllerConfig * TabBarControllerConfig = [[CYLTabBarControllerConfig alloc] init];
+    self.tab = TabBarControllerConfig;
+    TabBarControllerConfig.tabBarController.delegate=self;
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController  = TabBarControllerConfig.tabBarController ;
+
     
     
 

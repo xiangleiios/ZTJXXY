@@ -23,7 +23,8 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self.navigationView setBackgroundColor:[UIColor whiteColor]];
+    self.navigationView.lineView.hidden = YES;
     [self loadtable];
     // Do any additional setup after loading the view.
 }
@@ -36,11 +37,11 @@
 
 
 - (void)loadtable{
-    self.table=[[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
+    self.table=[[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     [self.view addSubview:self.table];
     [self.table mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make..mas_equalTo(self.view).mas_offset(kNavBarH);
-        make.top.left.right.bottom.mas_equalTo(self.view);
+        make.top.mas_equalTo(self.view).mas_offset(kNavBarH);
+        make.left.right.bottom.mas_equalTo(self.view);
     }];
     self.table.delegate=self;
     self.table.dataSource=self;
@@ -106,8 +107,8 @@
     return 1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.dataArr.count;
-//    return 4;
+//    return self.dataArr.count;
+    return 4;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -157,7 +158,24 @@
 }
 
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, KFit_H6S(200))];
+    v.backgroundColor = [UIColor whiteColor];
+    UILabel *lbTitle = [[UILabel alloc] init];
+    [v addSubview:lbTitle];
+    lbTitle.text = @"消息";
+    lbTitle.font = [UIFont systemFontOfSize:kFit_Font6(25) weight:0.6];
+    [lbTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(v).mas_offset(KFit_H6S(70));
+        make.left.mas_equalTo(v).mas_offset(KFit_W6S(30));
+        make.size.mas_equalTo(CGSizeMake(KFit_W6S(340), KFit_H6S(80)));
+    }];
+    return v;
+}
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return KFit_H6S(200);
+}
 /*
 #pragma mark - Navigation
 

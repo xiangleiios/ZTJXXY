@@ -16,13 +16,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navigationView setTitle:@"关于我们"];
+//    [self.navigationView setTitle:@"关于我们"];
+    [self.navigationView setBackgroundColor:[UIColor whiteColor]];
+    self.navigationView.lineView.hidden = YES;
+    
+    
+    UILabel *lbTitle = [[UILabel alloc] init];
+    [self.view addSubview:lbTitle];
+    lbTitle.text = @"关于我们";
+    lbTitle.font = [UIFont systemFontOfSize:kFit_Font6(25) weight:0.6];
+    [lbTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.view).mas_offset(KFit_H6S(70)+kNavBarH);
+        make.left.mas_equalTo(self.view).mas_offset(KFit_W6S(30));
+        make.size.mas_equalTo(CGSizeMake(KFit_W6S(340), KFit_H6S(80)));
+    }];
     
     UIImageView *img=[[UIImageView alloc]init];
 //    self.logimg=img;
     [self.view addSubview:img];
     [img mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.view).mas_offset(KFit_H6S(150)+kNavBarH);
+        make.top.mas_equalTo(self.view).mas_offset(KFit_H6S(200)+kNavBarH);
         make.centerX.mas_equalTo(self.view);
         make.height.width.mas_equalTo(KFit_W6S(200));
     }];

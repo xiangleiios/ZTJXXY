@@ -21,6 +21,8 @@
 #import "BranchSchoolListVC.h"
 
 #import "MyCourse.h"
+
+#import "MyNewsVC.h"
 #define HEADERHEI KFit_H6S(320)
 
 @interface FMMineVC ()<UIImagePickerControllerDelegate>
@@ -195,6 +197,23 @@
 }
 
 
+- (void)toMingpan{
+    MyInfoVC *vc = [[MyInfoVC alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 - (void)loadMyCourse{
     MyCourse *v = [[MyCourse alloc] init];
     self.myCourse = v;
@@ -216,6 +235,7 @@
         [self.Butview addSubview:but];
         [but setTitle:self.titlerr[i] forState:UIControlStateNormal];
         [but setImage:[UIImage imageNamed:self.imgarr[i]] forState:UIControlStateNormal];
+        [but addTarget:self action:@selector(functionBut:) forControlEvents:UIControlEventTouchUpInside];
         [but setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         but.tag = i;
     }
@@ -233,6 +253,40 @@
             make.top.mas_equalTo(self.backView).mas_offset(KFit_H6S(550));
             make.height.mas_equalTo([self.Butview getLayoutCellHeight]);
         }];
+    }
+}
+
+
+- (void)functionBut:(UIButton *)senter{
+    switch (senter.tag) {
+            case 0:
+            
+            break;
+            case 1:
+            
+            break;
+            case 2:
+            
+            break;
+            case 3:{
+                MyNewsVC *vc = [[MyNewsVC alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            
+            break;
+            case 4:
+            
+            break;
+            case 5:{
+                AboutUs *vc = [[AboutUs alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            
+            break;
+            
+            
+        default:
+            break;
     }
 }
 

@@ -21,18 +21,29 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navigationView setTitle:@"账户信息"];
+//    [self.navigationView setTitle:@"账户信息"];
+    self.navigationView.lineView.hidden = YES;
     [self loadSubView];
 //    [self loadfunctionbut];
     // Do any additional setup after loading the view.
 }
 
 - (void)loadSubView{
+    UILabel *lbTitle = [[UILabel alloc] init];
+    [self.view addSubview:lbTitle];
+    lbTitle.text = @"我的资料";
+    lbTitle.font = [UIFont systemFontOfSize:kFit_Font6(25) weight:0.6];
+    [lbTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.view).mas_offset(KFit_H6S(70)+kNavBarH);
+        make.left.mas_equalTo(self.view).mas_offset(KFit_W6S(30));
+        make.size.mas_equalTo(CGSizeMake(KFit_W6S(340), KFit_H6S(80)));
+    }];
+    
     
     self.HeadPortrait = [[UIImageView alloc] init];
     [self.view addSubview:self.HeadPortrait];
     [self.HeadPortrait mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.view).mas_offset(kNavBarH + KFit_H6S(20));
+        make.top.mas_equalTo(lbTitle.mas_bottom).mas_offset(KFit_H6S(50));
         make.right.mas_equalTo(self.view).mas_offset(-KFit_W6S(30));
         make.width.height.mas_equalTo(KFit_W6S(100));
     }];
@@ -64,20 +75,22 @@
         make.top.mas_equalTo(self.HeadPortrait.mas_bottom).mas_offset(KFit_H6S(20));
         make.height.mas_equalTo(1);
     }];
-    
-//    XLInformationV *name;
-    if (USERFZR) {
-        _name = [[XLInformationV alloc] informationWithTitle:@"登录账户" SubTitle:[User UserOb].mobile];
-    }else{
-        _name = [[XLInformationV alloc] informationWithTitle:@"登录账户" SubTitle:[User UserOb].mobile TSSubTitle:@"" Must:NO Click:YES];
-        _name.senterBlock = ^{
-            ChangePhoVC *vc = [[ChangePhoVC alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-        };
-    }
+    XLInformationV *name = [[XLInformationV alloc] informationWithTitle:@"用户名" SubTitle:[User UserOb].mobile TSSubTitle:@"" Must:NO Click:YES];
+    [self.view addSubview:name];
+    [name mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(lb.mas_bottom);
+        make.left.right.mas_equalTo(self.view);
+        make.height.mas_equalTo(KFit_H6S(90));
+    }];
+
+    _name = [[XLInformationV alloc] informationWithTitle:@"手机号码" SubTitle:[User UserOb].mobile TSSubTitle:@"" Must:NO Click:YES];
+    _name.senterBlock = ^{
+        ChangePhoVC *vc = [[ChangePhoVC alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    };
     [self.view addSubview:_name];
     [_name mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(lb.mas_bottom);
+        make.top.mas_equalTo(name.mas_bottom);
         make.left.right.mas_equalTo(self.view);
         make.height.mas_equalTo(KFit_H6S(90));
     }];
@@ -94,6 +107,7 @@
         make.height.mas_equalTo(KFit_H6S(90));
     }];
     
+    [self loadfunctionbut];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -106,7 +120,7 @@
     [next addTarget:self action:@selector(logOut:) forControlEvents:UIControlEventTouchUpInside];
     next.backgroundColor = kColor_N(0, 112, 234);
     [next setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    next.layer.cornerRadius = 5;
+    next.layer.cornerRadius = KFit_H6S(45);
     next.layer.masksToBounds = YES;
     [next mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view).mas_offset(KFit_W6S(70));
@@ -116,13 +130,16 @@
     }];
 }
 - (void)logOut:(UIButton *)sender{
-    [[User UserOb] UserQuit];
-    LoginVC *Loginvc = [[LoginVC alloc] init];
-    AppDelegate *delegete = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    UIViewController *vc = delegete.window.rootViewController;
-    delegete.window.rootViewController = Loginvc;
-    vc = nil;
-    [self presentViewController:Loginvc animated:YES completion:NULL];
+    XLAlertView *alert = [[XLAlertView alloc] initWithTitle:@"提示" message:@"是否退出登录" sureBtn:@"确定" cancleBtn:@"取消"];
+    [alert showXLAlertView];
+    alert.resultIndex = ^(NSInteger index) {
+        KKLog(@"%ld",(long)index);
+        if (index == 2) {
+            [[User UserOb] UserQuit];
+            LoginVC *vc = [[LoginVC alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    };
 }
 
 - (void)didReceiveMemoryWarning {
